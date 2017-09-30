@@ -2,10 +2,10 @@ var Tgfancy = require ('tgfancy');
 var fs = require('fs');
 var qpx = require('google-flights-api');
 
-const QPX_API_KEY = "<Google QPX API KEY>";
+const QPX_API_KEY = process.env.QPX_API_KEY;
 const options = { write: __dirname + '\\data'};
 var google_qpx = new qpx(QPX_API_KEY, options);
-var changiairbot = new Tgfancy ("<Telegram API KEY>", {polling : true});
+var changiairbot = new Tgfancy (process.env.Telegram_API_KEY, {polling : true});
 
 changiairbot.on("text", function(message){
 
@@ -32,15 +32,26 @@ changiairbot.on("text", function(message){
 			google_qpx.query(q).then((res) => {
 				fs.writeFileSync("response.json", JSON.stringify(res));
 				var flag = false;
+				var i =0;
+				var numberOfFlights = res.trips.tripOption[0].slice[0];
 				var cheapestPrice = res.trips.tripOption[0].saleTotal;
-				var depTime = res.trips.tripOption[0].slice[0].segment[0].leg[0].departureTime;
-				var formattedDepTime = formatTime(depTime);
-				var arrTime = res.trips.tripOption[0].slice[0].segment[0].leg[0].arrivalTime;
-				var formattedArrTime = formatTime(arrTime);
-				var flightNum = res.trips.tripOption[0].slice[0].segment[0].flight.carrier + res.trips.tripOption[0].slice[0].segment[0].flight.number
-				var messageResponse = `${token[0]} ---> ${token[1]} on ${flightNum} \nDeparture Time\: ${formattedDepTime} \nArrival Time     \: ${formattedArrTime} \nPrice: ${cheapestPrice}`;
 				changiairbot.sendMessage(message.chat.id , "Here is the cheapest flight I found!");
-				changiairbot.sendMessage(message.chat.id , messageResponse);
+				changiairbot.sendMessage(message.chat.id , `${token[0]} ---> ${token[1]} at ${cheapestPrice}`);
+
+				for(i=0 ; i<Object.keys(numberOfFlights).length ; i++) {
+
+					var depTime = res.trips.tripOption[0].slice[0].segment[i].leg[0].departureTime;
+					var formattedDepTime = formatTime(depTime);
+					var arrTime = res.trips.tripOption[0].slice[0].segment[i].leg[0].arrivalTime;
+					var formattedArrTime = formatTime(arrTime);
+
+					var flightNum = res.trips.tripOption[0].slice[0].segment[i].flight.carrier + res.trips.tripOption[0].slice[0].segment[i].flight.number
+					var legOrigin = res.trips.tripOption[0].slice[0].segment[i].leg[0].origin;
+					var legDestination = res.trips.tripOption[0].slice[0].segment[i].leg[0].destination;
+
+					var messageResponse = `${legOrigin} ---> ${legDestination} on ${flightNum} \nDeparture Time\: ${formattedDepTime} \nArrival Time     \: ${formattedArrTime}`;
+					changiairbot.sendMessage(message.chat.id , messageResponse);
+				}
 			}).catch(console.error);
 		}
 		else{
@@ -64,7 +75,7 @@ function dateToday () {
 	    mm='0'+mm;
 	} 
 	var today = yyyy+'-'+mm+'-'+dd;
-	console.log(today);
+	//console.log(today);
 	return today
 }
 
