@@ -50,7 +50,7 @@ changiairbot.on("text", function(message){
 				changiairbot.sendMessage(message.chat.id , "Here is the cheapest flight I found!");
 				changiairbot.sendMessage(message.chat.id , `${token[0]} ---> ${token[1]} at ${cheapestPrice}`);
 
-				console.log(`${numberOfFlights.text} legs in this flight itenerary`);
+				console.log(`${Object.keys(numberOfFlights).length} legs in this flight itenerary`);
 				for(i=0 ; i<Object.keys(numberOfFlights).length ; i++) {
 
 					var depTime = res.trips.tripOption[0].slice[0].segment[i].leg[0].departureTime;
