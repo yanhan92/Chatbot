@@ -3,18 +3,20 @@ var fs = require('fs');
 var qpx = require('google-flights-api');
 var port = process.env.PORT || 8443;
 var host = process.env.HOST;
+var externalURL = process.env.CUSTOM_ENV_VARIABLE || 'https://changiairbot.herokuapp.com' ;
 
 const QPX_API_KEY = process.env.QPX_API_KEY;
 const Telegram_API_KEY =process.env.Telegram_API_KEY; 
 const options = { write: __dirname + '\\data'};
 var google_qpx = new qpx(QPX_API_KEY, options);
 var changiairbot = new Tgfancy (Telegram_API_KEY, {
-	polling : true,
 	webHook: {
-		port: port, 
-		host: host
+		port : port,
+		host : host
 	}
 });
+
+changiairbot.setWebHook(externalURL + ':443/bot' + Telegram_API_KEY)
 
 changiairbot.on("text", function(message){
 
