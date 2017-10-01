@@ -8,7 +8,13 @@ const QPX_API_KEY = process.env.QPX_API_KEY;
 const Telegram_API_KEY =process.env.Telegram_API_KEY; 
 const options = { write: __dirname + '\\data'};
 var google_qpx = new qpx(QPX_API_KEY, options);
-var changiairbot = new Tgfancy (Telegram_API_KEY, {polling : true,port: port, host: host});
+var changiairbot = new Tgfancy (Telegram_API_KEY, {
+	polling : true,
+	webHook: {
+		port: port, 
+		host: host
+	}
+});
 
 changiairbot.on("text", function(message){
 
