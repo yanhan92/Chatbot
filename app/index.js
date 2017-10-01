@@ -28,7 +28,7 @@ changiairbot.on("text", function(message){
 		changiairbot.sendMessage(message.chat.id , "Tell me the airport code of departure followed by the airport code of arrival and the date of travel.");
 		changiairbot.sendMessage(message.chat.id , `Like 'HKG SIN ${today}' `);
 	}else{
-		console.log(`Request was made with incoming message: ${message}`)
+		console.log(`Request was made with incoming message: ${message.text}`)
 		var token = str.split(" ");
 		if(token.length == 3){
 			today = token[2];
