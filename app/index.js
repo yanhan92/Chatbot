@@ -22,8 +22,8 @@ changiairbot.on("text", function(message){
 
 	var today = new Date();
 	today = dateToday();
-	var str = message.text+ '';
-	if( str.toLowerCase() === "hi" || str.toLowerCase() === "hello"){
+	var str = message.text.toUpperCase()+ '';
+	if( str === "HI" || str === "HELLO"){
 		changiairbot.sendMessage(message.chat.id , "Hi, I can tell you the cheapest flight between two locations.");
 		changiairbot.sendMessage(message.chat.id , "Tell me the airport code of departure followed by the airport code of arrival and the date of travel.");
 		changiairbot.sendMessage(message.chat.id , `Like 'HKG SIN ${today}' `);
