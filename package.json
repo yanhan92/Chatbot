@@ -1,0 +1,19 @@
+{
+  "name": "chatbot",
+  "version": "1.0.0",
+  "description": "A Telegram Chatbot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "/start/app/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "corenlp": "0.0.16",
+    "google-flights-api": "^1.1.5",
+    "node-telegram-bot-api": "^0.28.0",
+    "textrazor": "^2.1.0",
+    "tgfancy": "^0.11.0"
+  }
+}
