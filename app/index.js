@@ -47,6 +47,7 @@ changiairbot.on("text", function(message){
 				var i =0;
 				var numberOfFlights = res.trips.tripOption[0].slice[0];
 				var cheapestPrice = res.trips.tripOption[0].saleTotal;
+				var carrierMap = res.trips.data.carrier;
 				changiairbot.sendMessage(message.chat.id , "Here is the cheapest flight I found!");
 				changiairbot.sendMessage(message.chat.id , `${token[0]} ---> ${token[1]} at ${cheapestPrice}`);
 
@@ -58,11 +59,14 @@ changiairbot.on("text", function(message){
 					var arrTime = res.trips.tripOption[0].slice[0].segment[i].leg[0].arrivalTime;
 					var formattedArrTime = formatTime(arrTime);
 
-					var flightNum = res.trips.tripOption[0].slice[0].segment[i].flight.carrier + res.trips.tripOption[0].slice[0].segment[i].flight.number
+					var flightCarrierCode = res.trips.tripOption[0].slice[0].segment[i].flight.carrier;
+					var flightCarrierName = carrierCodeToCarrierName ( flightCarrierCode , carrierMap);
+					var flightNum = flightCarrierCode + res.trips.tripOption[0].slice[0].segment[i].flight.number
 					var legOrigin = res.trips.tripOption[0].slice[0].segment[i].leg[0].origin;
 					var legDestination = res.trips.tripOption[0].slice[0].segment[i].leg[0].destination;
-					console.log(`Leg ${i+1}: ${legOrigin} ---> ${legDestination} on ${flightNum}`);
-					var messageResponse = `${legOrigin} ---> ${legDestination} on ${flightNum} \nDeparture Time\: ${formattedDepTime} \nArrival Time     \: ${formattedArrTime}`;
+
+					console.log(`Leg ${i+1}: ${legOrigin} ---> ${legDestination} on ${flightNum}    ${flightCarrierName}`);
+					var messageResponse = `${legOrigin} ---> ${legDestination} on ${flightNum}     ${flightCarrierName}\nDeparture Time\: ${formattedDepTime} \nArrival Time     \: ${formattedArrTime}`;
 					changiairbot.sendMessage(message.chat.id , messageResponse);
 				}
 			}).catch(console.error);
@@ -96,4 +100,11 @@ function formatTime(time){
 	var tokenTime = time.split("T");
 	var response = tokenTime[0] + "   " +tokenTime[1];
 	return response;
+}
+
+function carrierCodeToCarrierName ( code , carrierMap) {
+	for(int i =0 ; i < Object.keys(carrierMap).length ; i++){
+		if (code == carrierMap[i].code) return carrierMap[i].name;
+	}
+	return "ERROR";
 }
