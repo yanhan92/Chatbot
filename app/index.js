@@ -52,7 +52,7 @@ changiairbot.on("text", function(message){
 				changiairbot.sendMessage(message.chat.id , `${token[0]} ---> ${token[1]} at ${cheapestPrice}`);
 
 				console.log(`${Object.keys(numberOfFlights).length-1} legs in this flight itenerary`);
-				for(i=0 ; i<Object.keys(numberOfFlights).length ; i++) {
+				for(i=0 ; i<Object.keys(numberOfFlights).length-1 ; i++) {
 
 					var depTime = res.trips.tripOption[0].slice[0].segment[i].leg[0].departureTime;
 					var formattedDepTime = formatTime(depTime);
