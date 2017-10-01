@@ -50,7 +50,7 @@ changiairbot.on("text", function(message){
 				changiairbot.sendMessage(message.chat.id , "Here is the cheapest flight I found!");
 				changiairbot.sendMessage(message.chat.id , `${token[0]} ---> ${token[1]} at ${cheapestPrice}`);
 
-				console.log(`${numberOfFlights} legs in this flight itenerary`);
+				console.log(`${numberOfFlights.text} legs in this flight itenerary`);
 				for(i=0 ; i<Object.keys(numberOfFlights).length ; i++) {
 
 					var depTime = res.trips.tripOption[0].slice[0].segment[i].leg[0].departureTime;
@@ -61,14 +61,14 @@ changiairbot.on("text", function(message){
 					var flightNum = res.trips.tripOption[0].slice[0].segment[i].flight.carrier + res.trips.tripOption[0].slice[0].segment[i].flight.number
 					var legOrigin = res.trips.tripOption[0].slice[0].segment[i].leg[0].origin;
 					var legDestination = res.trips.tripOption[0].slice[0].segment[i].leg[0].destination;
-					console.log(`Leg ${i}: ${legOrigin} ---> ${legDestination} on ${flightNum}`);
+					console.log(`Leg ${i+1}: ${legOrigin} ---> ${legDestination} on ${flightNum}`);
 					var messageResponse = `${legOrigin} ---> ${legDestination} on ${flightNum} \nDeparture Time\: ${formattedDepTime} \nArrival Time     \: ${formattedArrTime}`;
 					changiairbot.sendMessage(message.chat.id , messageResponse);
 				}
 			}).catch(console.error);
 		}
 		else{
-			changiairbot.sendMessage(message.chat.id , `The input \"${message.text}\" has more than 3 fields`);
+			changiairbot.sendMessage(message.chat.id , `The input \"${message.text}\" should have 3 distinct fields`);
 			changiairbot.sendMessage(message.chat.id , "Tell me the airport code of departure followed by the airport code of arrival and the date of travel.");
 			changiairbot.sendMessage(message.chat.id , `Like 'HKG SIN ${today}' `);
 		}
