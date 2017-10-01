@@ -72,7 +72,7 @@ changiairbot.on("text", function(message){
 			}).catch(console.error);
 		}
 		else{
-			changiairbot.sendMessage(message.chat.id , `The input \"${message.text}\" should have 3 distinct fields`);
+			changiairbot.sendMessage(message.chat.id , `The input "${message.text}" should have 3 distinct fields`);
 			changiairbot.sendMessage(message.chat.id , "Tell me the airport code of departure followed by the airport code of arrival and the date of travel.");
 			changiairbot.sendMessage(message.chat.id , `Like 'HKG SIN ${today}' `);
 		}
