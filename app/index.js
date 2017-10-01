@@ -103,7 +103,7 @@ function formatTime(time){
 }
 
 function carrierCodeToCarrierName ( code , carrierMap) {
-	for(int i =0 ; i < Object.keys(carrierMap).length ; i++){
+	for(i =0 ; i < Object.keys(carrierMap).length ; i++){
 		if (code == carrierMap[i].code) return carrierMap[i].name;
 	}
 	return "ERROR";
